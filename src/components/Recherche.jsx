@@ -1,5 +1,6 @@
 import { useState } from "react";
 import '../css/Recherche.css';
+import MessageList from "./MessageList";
 
 function Recherche(props) {
     return (

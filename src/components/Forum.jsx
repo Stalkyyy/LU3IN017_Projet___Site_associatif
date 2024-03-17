@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import MessageList from "./MessageList.jsx";
+import MessageForm from "./MessageForm.jsx";
 import '../css/Forum.css';
 
 function Forum(props) {

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import CommentList from "./CommentList";
 import '../css/Message.css'
 
 function Message(props) {

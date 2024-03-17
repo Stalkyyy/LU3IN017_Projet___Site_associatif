@@ -1,5 +1,6 @@
 import { useState } from "react";
 import '../css/Home.css';
+import User from "./User.jsx";
 import Forum from "./Forum.jsx";
 import Profile from "./Profile.jsx";
 import Recherche from "./Recherche.jsx";

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../css/UserBanner.css'
+import User from './User';
 
 function UserBanner(props) {
 
