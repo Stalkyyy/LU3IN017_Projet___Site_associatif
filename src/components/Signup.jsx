@@ -57,34 +57,34 @@ function Signup(props) {
     
     function submitHandler(event) {
         if (errorPassword.status === false)
-            props.login();
+            props.signupInProgress_page();
     }
 
     return (
         <div className="Signup">
-            <h1>Sign up here</h1>
+            <h1>Inscription</h1>
 
-            <label htmlFor="firstName">First name</label>
-            <input type="text" id="FirstName" placeholder="First name" onChange={getFirstName} />
-            <label htmlFor="lastName">Last name</label>
-            <input type="text" id="LastName" placeholder="Last name" onChange={getLastName} />
+            <label htmlFor="firstName">Prénom</label>
+            <input type="text" id="FirstName" placeholder="Prénom" onChange={getFirstName} />
+            <label htmlFor="lastName">Nom de famille</label>
+            <input type="text" id="LastName" placeholder="Nom de famille" onChange={getLastName} />
 
             <label type="text" htmlFor="Signup_email">Email</label>
             <input type="text" id="Signup_email" placeholder="Email" onChange={getEmail} />
 
-            <label type="text" htmlFor="Signup_password1">Password</label>
-            <input type="password" id="Signup_password1" placeholder="Password" onChange={getPass1} />
+            <label type="text" htmlFor="Signup_password1">Mot de passe</label>
+            <input type="password" id="Signup_password1" placeholder="Mot de passe" onChange={getPass1} />
 
-            <label type="text" htmlFor="Signup_password2">Confirm password</label>
-            <input type="password" id="Signup_password2" placeholder="Password" onChange={getPass2} />
+            <label type="text" htmlFor="Signup_password2">Confirmation du mot de passe</label>
+            <input type="password" id="Signup_password2" placeholder="Mot de passe" onChange={getPass2} />
 
-            <button onClick={submitHandler}>Sign Up</button>
+            <button onClick={submitHandler}>S'incrire</button>
 
             <p style={{color:"#C84862"}}>{errorPassword.message}</p>
 
             <hr></hr>
                 
-            <button onClick={props.login_page}>Log In</button>
+            <button onClick={props.login_page}>Se connecter</button>
         </div>
     );
 }

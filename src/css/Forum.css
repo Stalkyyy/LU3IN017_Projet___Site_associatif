@@ -1,17 +1,10 @@
-#Forum {
-    order: 3;
-    flex-grow: 1;
-
-    border-left: solid;
-}
-
 #feedType {
     display: flex;
     flex-direction: row;
+    height: 50px;
 }
 
 #feedType > button {
-    font-family: 'Poppins',sans-serif; 
     font-weight: bold;
     color: #008080;
     letter-spacing: 0.5px;
@@ -26,14 +19,23 @@
     border-bottom: 1px solid;
 
     text-shadow: 0 1px 1px rgba(8,7,16,0.6);
-    transition: all 0.2s ease-out;
+    transition: background-color 0.2s ease-out;
 }
 
 #feedType > button:hover {
     background-color: #dfe1d8;
 }
 
-#feed {
-    height: 100vh;
+#feedType > button.forumSelected {
+    color: #fbfcf8;
+    background-color: #008080;
+}
+
+#feedType > button.forumSelected:hover {
+    background-color: #016969;
+}
+
+.MessageList {
+    max-height: calc(100% - 122px);
     overflow-y: auto;
 }

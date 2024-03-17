@@ -2,17 +2,23 @@ import { useState } from "react";
 import '../css/Home.css';
 import Forum from "./Forum.jsx";
 import Profile from "./Profile.jsx";
+import Recherche from "./Recherche.jsx";
 import UserBanner from "./UserBanner.jsx";
+import ValidationInscription from "./ValidationInscription.jsx";
 
 function Home(props) {
     
     const [isAdmin, setAdmin] = useState(true);
-    const [homePage, setHomePage] = useState("profile");
+    const [homeCBpage, setHomeCBpage] = useState("forum");
 
 
-    function chooseHomePage() {
-        if (homePage === "profile")
-            return <Profile />
+    function chooseCentralBanner() {
+        if (homeCBpage === "profile")
+            return <Profile username="Stalky"/>
+        else if (homeCBpage === "recherche")
+            return <Recherche />
+        else if (homeCBpage === "validation" && isAdmin)
+            return <ValidationInscription/>
         else
             return <Forum isAdmin={isAdmin}/>
     }
@@ -21,17 +27,14 @@ function Home(props) {
     return (
         <div id="Home">
             <header id="header-Home">
-                <img id="logo" src="/images/logo.png"/>
-                <form id="searchForum">
-                    <input id="inputSearchForum" type="text" placeholder="Rechercher sur le forum" />
-                </form>
-                <button id="logoutButton" onClick={props.logout}>Log out</button>
+                <img id="logo-left" src="/images/logo.png"/>
+                <h1 id="titleWebsite">Organiz'Asso</h1>
+                <img id="logo-right" src="/images/logo.png"/>
             </header>
-            <div id="CentralBanner">
-                <div id="LeftBanner">
-                    <UserBanner />
-                </div>
-                {chooseHomePage()}
+            <div id="content-Home">
+                <UserBanner logout={props.logout} isAdmin={isAdmin} setHomeCBpage={setHomeCBpage}/>
+
+                {chooseCentralBanner()}
             </div>
         </div>
     )

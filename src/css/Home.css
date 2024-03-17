@@ -1,88 +1,40 @@
 #header-Home {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 
     height: 70px;
+    padding: 0px 50px; 
     border-bottom: solid;
     background-color: #6c6c6c0e;
 }
 
-#logo {
+#logo-left, #logo-right {
     margin-left: 10px;
     margin-right: 10px;
     height: 90%;
 }
 
-#searchForum {
-    flex-grow: 1;
+#logo-right {
+    transform: scaleX(-1);
+}
+
+#titleWebsite {
     text-align: center;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
-#inputSearchForum {
-    color: #008080;
-    letter-spacing: 0.5px;
-    outline: none;
-
-    box-sizing: border-box;
-    height: 50px;
-    width: 95%;
-    border: 1px solid;
-    background-color: #fbfcf8;
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: 300;
-
-    box-shadow: 0 0 0px rgba(8,7,16,0.6);
-    transition: box-shadow 0.2s ease;
-}
-
-#inputSearchForum:focus {
-    box-shadow: 0 0 4px rgba(8,7,16,0.6);
-}
-
-#logoutButton {
-    color: #008080;
-    letter-spacing: 0.5px;
-    outline: none;
-
-    text-align: center;
-    width: 100px;
-    height: 50px;
-    border: 1px solid;
-    background-color: #fbfcf8;
-    padding: 15px 0;
-    margin: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-
-    box-shadow: 0 0 0px transparent;
-    transition: box-shadow 0.2s ease;
-}
-
-#logoutButton:hover {
-    color : #fbfcf8;
-    background-color: #008080;
-    border-color: #008080;
-
-    box-shadow: 0 0 4px rgba(8,7,16,0.6);
-}
-
-#CentralBanner {
+#content-Home {
     display: flex;
     flex-direction: row;
 
     height: 100vh;
 }
 
-#LeftBanner {
+.CentralBanner {
     order: 2;
-    
-    width: 250px;
-    text-align: center;
-    background-color: #e4f6f6;
-    color: rgb(104, 7, 7);
+    flex-grow: 1;
+    border-left: solid;
+    width: calc(100vw - 200px);
 }

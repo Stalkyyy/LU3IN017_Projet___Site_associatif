@@ -1,12 +1,12 @@
 import { useState } from "react";
-import '../css/Profile.css'
+import '../css/Recherche.css';
 
-function Profile(props) {
+function Recherche(props) {
     return (
         <div id="Profile" className="CentralBanner">
-            <p>Profile de {props.username}</p>
+            <p>Page de recherche !</p>
         </div>
     )
 }
 
-export default Profile;
+export default Recherche;

@@ -17,15 +17,15 @@ function Login(props) {
                 <label htmlFor="email">Email</label>
                 <input id="email" type="text" placeholder="Email" onChange={getEmail} />
 
-                <label htmlFor="password">Password</label>
-                <input id="password" type="password" placeholder="Password" onChange={getPassword} />
+                <label htmlFor="password">Mot de passe</label>
+                <input id="password" type="password" placeholder="Mot de passe" onChange={getPassword} />
 
-                <button onClick={props.login}>Log In</button>
+                <button onClick={props.login}>Se connecter</button>
                 <a>Mot de passe oublié ?</a>
 
                 <hr></hr>
                 
-                <button onClick={props.signup_page}>Sign Up</button>
+                <button onClick={props.signup_page}>S'inscrire</button>
             </div>
     );
 }

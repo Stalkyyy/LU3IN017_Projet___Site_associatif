@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import './App.css';
+import SignupInProgress from "./components/SignupInProgress.jsx";
 import Signup from './components/Signup.jsx';
 import Login from './components/Login.jsx';
 import Home from "./components/Home.jsx";
@@ -10,7 +11,7 @@ function App(props) {
     const [isConnected, setConnect] = useState(false);
 
     // Gère la page du site.
-    const [page, setPage] = useState("login_page");
+    const [page, setPage] = useState("login");
 
     /*
      * Choisis la page à mettre en avant.
@@ -24,10 +25,13 @@ function App(props) {
             return <Home logout={getLogout}/>;
 
         else if (page === "signup_page")
-            return <Signup login={getConnected} login_page={getLogout}/>;
+            return <Signup login={getConnected} login_page={getLogout} signupInProgress_page={getSignupInProgress}/>;
+
+        else if (page === "signupInProgress_page")
+            return <SignupInProgress login_page={getLogout} signup_page={getSignup}/>;
 
         else 
-            return <Login login={getConnected} signup_page={getSignup}/>;
+            return <Login login={getConnected} signup_page={getSignup} signupInProgress_page={getSignupInProgress}/>;
     }
 
 
@@ -47,6 +51,12 @@ function App(props) {
     function getSignup() {
         setConnect(false);
         setPage("signup_page");
+    }
+
+    // Quand l'utilisateur s'incrit ou  se connecte à un compte en cours de validation, il ira sur cette page.
+    function getSignupInProgress() {
+        setConnect(false);
+        setPage("signupInProgress_page");
     }
 
 
