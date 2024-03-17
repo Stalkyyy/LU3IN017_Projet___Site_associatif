@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import './App.css';
+import Signup from './components/Signup.jsx';
+import Login from './components/Login.jsx';
+import Home from "./components/Home.jsx";
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function App(props) {
+    // Gère le statue de connexion de l'utilisateur.
+    const [isConnected, setConnect] = useState(false);
+
+    // Gère la page du site.
+    const [page, setPage] = useState("login_page");
+
+    /*
+     * Choisis la page à mettre en avant.
+     *
+     * Si l'utilisateur est connecté, alors il rentre dans le forum.
+     * S'il a choisi de s'inscrire, il ira sur la page d'inscription.
+     * Sinon, il sera sur la page de connexion.
+     */
+    function choosePage() {
+        if (isConnected)
+            return <Home logout={getLogout}/>;
+
+        else if (page === "signup_page")
+            return <Signup login={getConnected} login_page={getLogout}/>;
+
+        else 
+            return <Login login={getConnected} signup_page={getSignup}/>;
+    }
+
+
+    // Connexion de l'utilisateur, il rentre dans le home.
+    function getConnected() {
+        setConnect(true);
+        setPage("home_page");
+    }
+
+    // Deconnexion de l'utilisateur, il retourne sur la page de connexion.
+    function getLogout() {
+        setConnect(false);
+        setPage("login_page");
+    }
+
+    // L'utilisateur va sur la page d'inscription. Il doit être déconnecté.
+    function getSignup() {
+        setConnect(false);
+        setPage("signup_page");
+    }
+
+
+    /*
+     * Si on est dans la page Home, on passe l'overflow du body en hidden.
+     */
+    useEffect(() => {
+        if (page === "home_page")
+            document.body.classList.add('home-page');
+        else
+            document.body.classList.remove('home-page');
+    });
+
+
+
+    return (
+        <div className="App">
+            {choosePage()}
+        </div>
+    )
 }
 
-export default App
+export default App;

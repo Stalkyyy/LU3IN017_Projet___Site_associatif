@@ -1,0 +1,39 @@
+#Forum {
+    order: 3;
+    flex-grow: 1;
+
+    border-left: solid;
+}
+
+#feedType {
+    display: flex;
+    flex-direction: row;
+}
+
+#feedType > button {
+    font-family: 'Poppins',sans-serif; 
+    font-weight: bold;
+    color: #008080;
+    letter-spacing: 0.5px;
+
+    background-color: #fbfcf8;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 24px;
+    text-align: center;
+    border: 0;
+    border-bottom: 1px solid;
+
+    text-shadow: 0 1px 1px rgba(8,7,16,0.6);
+    transition: all 0.2s ease-out;
+}
+
+#feedType > button:hover {
+    background-color: #dfe1d8;
+}
+
+#feed {
+    height: 100vh;
+    overflow-y: auto;
+}

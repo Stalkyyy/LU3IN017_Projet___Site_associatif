@@ -1,0 +1,8 @@
+#Profile {
+    order: 3;
+    flex-grow: 1;
+
+    border-left: solid;
+    height: 100vh;
+    overflow-y: auto;
+}

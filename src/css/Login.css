@@ -1,0 +1,95 @@
+.Login {
+    height: auto;
+    width: 400px;
+    background-color: #6c6c6c0e;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+
+.Login > *{
+    width: 100%;
+    font-family: 'Poppins',sans-serif;
+    color: #008080;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+.Login > input {
+    display: block;
+    box-sizing: border-box;
+    height: 50px;
+    width: 100%;
+    border: 1px solid;
+    background-color: #fbfcf8;
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+
+    box-shadow: 0 0 0px transparent;
+    transition: box-shadow 0.2s ease;
+}
+
+.Login > input:focus {
+    box-shadow: 0 0 4px rgba(8,7,16,0.6);
+}
+
+.Login > label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.Login > h1 {
+    font-size: 40px;
+    text-align: center;
+}
+
+.Login > button{
+    margin-top: 50px;
+    width: 100%;
+    border: 1px solid;
+    background-color: #fbfcf8;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+
+    box-shadow: 0 0 0px transparent;
+    transition: box-shadow 0.2s ease;
+}
+
+.Login > button:hover {
+    color : #fbfcf8;
+    background-color: #008080;
+    border-color: #008080;
+
+    box-shadow: 0 0 4px rgba(8,7,16,0.6);
+}
+
+.Login > a {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.Login > hr {
+    border: none;
+    margin: 0;
+    margin-top: 50px;
+    border-top: 1px solid black;
+    color: #333;
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+}
