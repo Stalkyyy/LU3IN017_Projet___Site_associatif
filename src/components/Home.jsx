@@ -15,7 +15,7 @@ function Home(props) {
 
     function chooseCentralBanner() {
         if (homeCBpage === "profile")
-            return <Profile username="Stalky"/>
+            return <Profile username="Stalky" date="17 mars 2024"/>
         else if (homeCBpage === "recherche")
             return <Recherche />
         else if (homeCBpage === "validation" && isAdmin)
