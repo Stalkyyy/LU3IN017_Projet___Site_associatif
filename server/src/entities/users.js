@@ -1,64 +1,80 @@
+const bcrypt = require('bcrypt');
+const { ObjectId } = require('mongodb');
+const saltRounds = 10;
+
 class Users {
     constructor(db) {
-        this.db = db;
+        this.db = db
     }
 
-    create(firstname, lastname, email, password) {
-        return new Promise((res, rej) => {
-            let userid = 1; // A remplacer par une requête bd
-            if (false) {
-                //erreur
-                rej();
-            } else {
-                res(userid);
-            }
-        });
-    }
-
-    get(userid) {
-        return new Promise((res, rej) => {
+    async create(mail, password, lastname, firstname) {
+        try {
             const user = {
-                email: "email",
-                password: "password",
-                firstname: "firstname",
-                lastname: "lastname"
-            }; // A remplacer avec une requête bd
-
-            if (false) {
-                //erreur
-                rej();
-            } else {
-                if (userid == 1) {
-                    res(user);
-                } else {
-                    res(null);
-                }
-            }
-        });
+                mail,
+                password : await bcrypt.hash(password, 10),
+                lastname,
+                firstname,
+                status: "invitation"
+            };
+    
+            console.log('Inserting user:', user);
+            const result = await this.db.collection('users').insertOne(user);
+            console.log('Insert result:', result);
+    
+            if (result.acknowledged)
+                return { _id: result.insertedId, ...user }; // Retourne le document inséré
+             else 
+                throw new Error('Failed to insert user into database');
+        } catch (err) {
+            console.log('Error occurred:', err);
+            throw err;
+        }
     }
 
-    async exists(email) {
-        return new Promise((res, rej) => {
-            if (false) {
-                //erreur
-                rej();
-            } else {
-                res(true);
-            }
-        });
+    async get(userid) {
+        try {
+            const user = await this.db.collection('users').findOne({ _id: new ObjectId(userid) });
+            return user;
+        } catch (err) {
+            console.log('Error occurred:', err);
+            throw err;
+        }
     }
 
-    checkpassword(email, password) {
-        return new Promise((res, rej) => {
-            let userid = 1; // A remplacer par une requête bd
-            if (false) {
-                //erreur
-                rej();
+    async exists(mail) {
+        try {
+            const user = await this.db.collection('users').findOne({ mail });
+            return user
+        } catch (err) {
+            console.log('Error occurred:', err);
+            throw err;
+        }
+    }
+
+    async checkpassword(mail, password) {
+        try {
+            const user = await this.db.collection('users').findOne({ mail });
+            if (!user) {
+                return null;
             } else {
-                res(userid);
+                const isMatch = await new Promise((resolve, reject) => {
+                    bcrypt.compare(password, user.password, (err, result) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(result);
+                        }
+                    });
+                });
+
+                return isMatch ? user._id : null;
             }
-        });
+        } catch (err) {
+            console.log('Error occurred:', err);
+            throw err;
+        }
     }
 }
 
-exports.default = Users;
+module.exports = Users;
+

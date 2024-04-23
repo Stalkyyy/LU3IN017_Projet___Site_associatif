@@ -76,10 +76,14 @@
     box-shadow: 0 0 4px rgba(8,7,16,0.6);
 }
 
-.Login > a {
+.Login > a, .error {
     display: block;
     margin-top: 10px;
     text-align: center;
+}
+
+.Login > .error {
+    color: red;
 }
 
 .Login > hr {
