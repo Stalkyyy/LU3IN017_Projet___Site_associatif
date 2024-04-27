@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import axios from 'axios';
 import '../css/UserBanner.css'
+import URL from '../Url.jsx';
 import User from './User';
 
 function UserBanner(props) {
@@ -7,6 +9,17 @@ function UserBanner(props) {
     function addValidationAdminButton() {
         if (props.isAdmin) 
             return <button onClick={() => {props.setHomeCBpage("validation")}}>Validation</button>
+    }
+
+    function handleSubmit() {
+        axios.delete(`${URL()}/auth/logout`)
+            .then((response) => {
+                if (response.status === 200)
+                    props.logout();
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     return (
@@ -18,7 +31,7 @@ function UserBanner(props) {
             <button onClick={() => {props.setHomeCBpage("recherche")}}>Recherche</button>
             {addValidationAdminButton()}
 
-            <button id="logoutButton" onClick={props.logout}>Se déconnecter</button>
+            <button id="logoutButton" onClick={handleSubmit}>Se déconnecter</button>
         </div>
     )
 }
