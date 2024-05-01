@@ -28,35 +28,39 @@ function init(db) {
             if (!mail || !password)
             	return res.status(400).json({
                     status: 400,
-                    message: "Requête invalide : login et password nécessaires"
+                    message: "Requête invalide : mail et mot de passe nécessaires",
+                    user: null
                 });
 
 
             if(! await users.exists(mail))
             	return res.status(401).json({
                     status: 401,
-                    message: "Utilisateur inconnu"
+                    message: "Utilisateur inconnu",
+                    user: null
                 });
 
 
-            let userid = await users.checkpassword(mail, password);
-            if (userid)
+            const user = await users.checkpassword(mail, password);
+            if (user)
                 // Avec middleware express-session
                 return req.session.regenerate(function (err) {
                     if (err) {
                         res.status(500).json({
                             status: 500,
-                            message: "Erreur interne"
+                            message: "Erreur interne",
+                            user: null
                         });
                     }
 
                     else {
                         // C'est bon, nouvelle session créée
                         req.session.mail = mail;
-                        req.session.userid = userid;
+                        req.session.userid = user._id;
                          return res.status(200).json({
                             status: 200,
-                            message: "Login et mot de passe accepté"
+                            message: "Mail et mot de passe acceptés",
+                            user: user
                         });
                     }
                 });
@@ -66,7 +70,7 @@ function init(db) {
             req.session.destroy((err) => { });
             return res.status(403).json({
                 status: 403,
-                message: "login et/ou le mot de passe invalide(s)"
+                message: "Mot de passe invalide"
             });
         }
         catch (e) {

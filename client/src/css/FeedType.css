@@ -29,13 +29,19 @@
 #feedType > button.forumSelected {
     color: #fbfcf8;
     background-color: #008080;
+    border-color: #008080;
 }
 
 #feedType > button.forumSelected:hover {
     background-color: #016969;
 }
 
-.MessageList {
+#conteneurMessageForum {
     max-height: calc(100% - 122px);
+    overflow-y: auto;
+}
+
+#conteneurMessageProfile {
+    max-height: calc(100% - 323px);
     overflow-y: auto;
 }

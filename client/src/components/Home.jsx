@@ -1,27 +1,35 @@
 import { useState } from "react";
 import '../css/Home.css';
-import User from "./User.jsx";
 import Forum from "./Forum.jsx";
 import Profile from "./Profile.jsx";
 import Recherche from "./Recherche.jsx";
 import UserBanner from "./UserBanner.jsx";
-import ValidationInscription from "./ValidationInscription.jsx";
+import Validation from "./Validation.jsx";
 
 function Home(props) {
-    
-    const [isAdmin, setAdmin] = useState(true);
     const [homeCBpage, setHomeCBpage] = useState("forum");
+    const [userFocused, setUserFocused] = useState(props.user._id);
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    function visitProfile(userid) {
+        setUserFocused(userid);
+
+        if (homeCBpage === "profile") 
+            setRefreshKey(oldKey => oldKey + 1);
+        else 
+            setHomeCBpage("profile");
+    }
 
 
     function chooseCentralBanner() {
         if (homeCBpage === "profile")
-            return <Profile username="Stalky"/>
+            return <Profile key={refreshKey} user={props.user} userFocused={userFocused} visitProfile={visitProfile}/>
         else if (homeCBpage === "recherche")
-            return <Recherche />
-        else if (homeCBpage === "validation" && isAdmin)
-            return <ValidationInscription/>
+            return <Recherche key={refreshKey} user={props.user} visitProfile={visitProfile}/>
+        else if (homeCBpage === "validation" && props.user.status === "admin")
+            return <Validation key={refreshKey} user={props.user}/>
         else
-            return <Forum isAdmin={isAdmin}/>
+            return <Forum key={refreshKey} user={props.user} visitProfile={visitProfile}/>
     }
 
 
@@ -33,7 +41,7 @@ function Home(props) {
                 <img id="logo-right" src="/images/logo.png"/>
             </header>
             <div id="content-Home">
-                <UserBanner logout={props.logout} isAdmin={isAdmin} setHomeCBpage={setHomeCBpage}/>
+                <UserBanner logout={props.logout} user={props.user} isAdmin={props.user.status === "admin"} setHomeCBpage={setHomeCBpage} visitProfile={visitProfile}/>
 
                 {chooseCentralBanner()}
             </div>

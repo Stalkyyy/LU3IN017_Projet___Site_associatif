@@ -3,6 +3,8 @@ const path = require('path');
 
 const auth = require('./api/auth.js');
 const users = require('./api/users.js');
+const messages = require('./api/messages.js');
+const comments = require('./api/comments.js');
 
 // Détermine le répertoire de base
 const basedir = path.normalize(path.dirname(__dirname));
@@ -37,6 +39,8 @@ app.use(cors({
 
         app.use('/auth', auth(db));
         app.use('/user', users(db));
+        app.use('/message', messages(db));
+        app.use('/comment', comments(db));
 
         // Démarre le serveur
         app.on('close', () => {

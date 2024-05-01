@@ -4,7 +4,7 @@ import URL from '../Url.jsx';
 import '../css/Login.css'
 
 function Login(props) {
-    // Gère le login et le mot de passe inscrits par l'utilisateur.
+    // Gère le mail et le mot de passe inscrits par l'utilisateur.
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -12,26 +12,25 @@ function Login(props) {
     function getMail(event) { setMail(event.target.value); }
     function getPassword(event) { setPassword(event.target.value); }
 
+    
 
+    // Gère la demande serveur au niveau de la connexion à un compte.
     function handleSubmit() {
-        console.log(mail);
         axios.post(`${URL()}/auth/login`, { mail, password })
             .then((response) => {
-                if (response.status === 200) {
-                    props.login();
-                    setError(null);
-                } else {
-                    setError(response.message);
-                }
+                if (response.status === 200)
+                    response.data.user.status === "invitation" ? props.signupInProgress_page() : props.login(response.data.user);
+                else
+                    setError(response.data.message);
             })
             .catch(err => {
                 console.error(err);
-                setError(err.message);
+                setError(err.response.data.message);
             });
     }
 
 
-    
+
     return (
             <div className="Login">
                 <h1>Connexion</h1>

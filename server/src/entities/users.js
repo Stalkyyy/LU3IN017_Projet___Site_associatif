@@ -14,39 +14,52 @@ class Users {
                 password : await bcrypt.hash(password, 10),
                 lastname,
                 firstname,
-                status: "invitation"
+                status: "invitation",
+                date: new Date()
             };
     
-            console.log('Inserting user:', user);
             const result = await this.db.collection('users').insertOne(user);
-            console.log('Insert result:', result);
     
             if (result.acknowledged)
                 return { _id: result.insertedId, ...user }; // Retourne le document inséré
              else 
-                throw new Error('Failed to insert user into database');
+                throw new Error("Erreur lors de l'insertion dans la base de données.");
         } catch (err) {
-            console.log('Error occurred:', err);
+            console.log('Erreur interne', err);
+            throw err;
+        }
+    }
+
+    async delete(userid) {
+        try {
+            const result = await this.db.collection('users').deleteOne({ _id: new ObjectId(userid) });
+    
+            if (result.deletedCount === 1)
+                return { message: 'User deleted successfully' };
+            else
+                throw new Error('User not found');
+        } catch (err) {
+            console.log('Erreur interne', err);
             throw err;
         }
     }
 
     async get(userid) {
         try {
-            const user = await this.db.collection('users').findOne({ _id: new ObjectId(userid) });
+            const user = await this.db.collection('users').findOne({ _id: new ObjectId(userid) }, { projection: { password: 0 } });
             return user;
         } catch (err) {
-            console.log('Error occurred:', err);
+            console.log('Erreur interne', err);
             throw err;
         }
     }
 
     async exists(mail) {
         try {
-            const user = await this.db.collection('users').findOne({ mail });
+            const user = await this.db.collection('users').findOne({ mail }, { projection: { password: 0 } });
             return user
         } catch (err) {
-            console.log('Error occurred:', err);
+            console.log('Erreur interne', err);
             throw err;
         }
     }
@@ -67,10 +80,46 @@ class Users {
                     });
                 });
 
-                return isMatch ? user._id : null;
+                return isMatch ? user : null;
             }
         } catch (err) {
-            console.log('Error occurred:', err);
+            console.log('Erreur interne', err);
+            throw err;
+        }
+    }
+
+
+    async getUsersPendingValidation() {
+        try {
+            const users = await this.db.collection('users').find({ status: 'invitation' }, { projection: { password: 0 } });
+            return users.toArray();
+        } catch (err) {
+            console.log('Erreur interne', err);
+            throw err;
+        }
+    }
+
+    async changeUserStatus(userId, status) {
+        try {
+            const validStatuses = ['member', 'admin'];
+            if (!validStatuses.includes(status))
+                throw new Error('Statut invalide');
+            
+    
+            const result = await this.db.collection('users').updateOne(
+                { _id: new ObjectId(userId) },
+                { $set: { status: status } }
+            );
+    
+            if (result.matchedCount === 0) {
+                console.log(`Utilisateur ${userId} introuvable.`);
+                return null;
+            }
+    
+            console.log(`Le statut utilisateur ${userId} a été mis à jour : ${status}`);
+            return result;
+        } catch (err) {
+            console.log('Erreur interne', err);
             throw err;
         }
     }
