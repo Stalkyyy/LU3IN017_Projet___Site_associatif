@@ -22,7 +22,7 @@ function UserBanner(props) {
     return (
         <div id="UserBanner">
             <img id="profilePic" src="/images/PfpLapis_1.jpg" alt="Profile Pic"/>
-            <button onClick={() => {props.visitProfile(props.user._id)}}>Ton profile</button>
+            <button onClick={() => {props.visitProfile(props.user._id)}}>Ton profil</button>
 
             <button onClick={() => {props.setHomeCBpage("forum")}}>Forum</button>
             <button onClick={() => {props.setHomeCBpage("recherche")}}>Recherche</button>

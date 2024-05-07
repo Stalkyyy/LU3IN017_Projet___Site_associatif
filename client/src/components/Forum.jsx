@@ -14,8 +14,8 @@ function Forum(props) {
     return (
         <div id="Forum" className="CentralBanner">
             <div id="feedType">
-                <button id="goPublicForum" className={!privateForum ? "forumSelected" : ""} onClick={() => setForum(false)}>Forum publique</button>
-                { props.user.status === "admin" ? <button id="goPrivateForum" className={privateForum ? "forumSelected" : ""} onClick={() => setForum(true)}>Forum privée</button> : <></> }
+                <button id="goPublicForum" className={!privateForum ? "forumSelected" : ""} onClick={() => setForum(false)}>Forum public</button>
+                { props.user.status === "admin" ? <button id="goPrivateForum" className={privateForum ? "forumSelected" : ""} onClick={() => setForum(true)}>Forum privé</button> : <></> }
             </div>
             <div id="conteneurMessageForum">
                 <MessageForm user={props.user} type={privateForum} refreshForum={refreshForum}/>

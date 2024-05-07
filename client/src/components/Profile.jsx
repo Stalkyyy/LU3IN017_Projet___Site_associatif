@@ -36,7 +36,7 @@ function Profile(props) {
                 </div>
             </div>
             <div id="feedType">
-                <button id="goPublicForum" className={!privateForum ? "forumSelected" : ""} onClick={() => setForum(false)}>Posts publiques</button>
+                <button id="goPublicForum" className={!privateForum ? "forumSelected" : ""} onClick={() => setForum(false)}>Posts publics</button>
                 { props.user.status === "admin" ? <button id="goPrivateForum" className={privateForum ? "forumSelected" : ""} onClick={() => setForum(true)}>Posts privés</button> : <></> }
             </div>
 
