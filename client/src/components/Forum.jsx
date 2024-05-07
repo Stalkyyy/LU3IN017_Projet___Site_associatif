@@ -1,18 +1,26 @@
 import { useState, useEffect } from "react";
 import MessageList from "./MessageList.jsx";
 import MessageForm from "./MessageForm.jsx";
-import '../css/Forum.css';
+import '../css/FeedType.css';
 
 function Forum(props) {
     const [privateForum, setForum] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    function refreshForum() {
+        setRefreshKey(oldKey => oldKey + 1);
+    };
 
     return (
         <div id="Forum" className="CentralBanner">
             <div id="feedType">
                 <button id="goPublicForum" className={!privateForum ? "forumSelected" : ""} onClick={() => setForum(false)}>Forum publique</button>
-                { props.isAdmin ? <button id="goPrivateForum" className={privateForum ? "forumSelected" : ""} onClick={() => setForum(true)}>Forum privée</button> : <></> }
+                { props.user.status === "admin" ? <button id="goPrivateForum" className={privateForum ? "forumSelected" : ""} onClick={() => setForum(true)}>Forum privée</button> : <></> }
             </div>
-            <MessageList />
+            <div id="conteneurMessageForum">
+                <MessageForm user={props.user} type={privateForum} refreshForum={refreshForum}/>
+                <MessageList user={props.user} type={privateForum} key={refreshKey} visitProfile={props.visitProfile}/>
+            </div>
         </div>
     )
 }

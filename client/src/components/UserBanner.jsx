@@ -1,11 +1,8 @@
-import { useState } from 'react';
-import axios from 'axios';
 import '../css/UserBanner.css'
+import axios from 'axios';
 import URL from '../Url.jsx';
-import User from './User';
 
 function UserBanner(props) {
-
     function addValidationAdminButton() {
         if (props.isAdmin) 
             return <button onClick={() => {props.setHomeCBpage("validation")}}>Validation</button>
@@ -25,9 +22,9 @@ function UserBanner(props) {
     return (
         <div id="UserBanner">
             <img id="profilePic" src="/images/PfpLapis_1.jpg" alt="Profile Pic"/>
-            <button onClick={() => {props.setHomeCBpage("profile")}}>Ton profile</button>
+            <button onClick={() => {props.visitProfile(props.user._id)}}>Ton profile</button>
 
-            <button onClick={() => {props.setHomeCBpage("forum")}}>Forums</button>
+            <button onClick={() => {props.setHomeCBpage("forum")}}>Forum</button>
             <button onClick={() => {props.setHomeCBpage("recherche")}}>Recherche</button>
             {addValidationAdminButton()}
 

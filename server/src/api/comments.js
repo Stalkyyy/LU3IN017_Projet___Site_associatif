@@ -1,6 +1,5 @@
 const express = require("express");
-const Messages = require("../entities/messages.js");
-const { ObjectId } = require('mongodb');
+const Comments = require("../entities/comments.js");
 
 function init(db) {
     const router = express.Router();
@@ -20,16 +19,16 @@ function init(db) {
 
 
 
-    const messages = new Messages(db);
+    const comments = new Comments(db);
     router
-        .route("/id/:message_id")
+        .route("/id/:comment_id")
         .get(async (req, res) => {
             try {
-                const message = await messages.getId(req.params.message_id);
-                if (!message)
+                const comment = await comments.getId(req.params.comment_id);
+                if (!comment)
                     res.sendStatus(404);
                 else
-                    res.send(message);
+                    res.send(comment);
             }
             catch (e) {
                 res.status(500).send(e);
@@ -37,7 +36,7 @@ function init(db) {
         })
         .delete(async (req, res, next) => {
             try {
-                const ack = await messages.delete(req.params.message_id);
+                const ack = await comments.delete(req.params.comment_id);
                 if (ack)
                     res.send("ok");
                 else
@@ -51,28 +50,13 @@ function init(db) {
 
 
 
-    router.get("/forum/:type", async (req, res) => {
+    router.get("/msg/:message_id", async (req, res) => {
         try {
-            const listMessages = await messages.getList({ forum: req.params.type });
-            if (!listMessages)
+            const listComments = await comments.getList(req.params.message_id);
+            if (!listComments)
                 res.sendStatus(404);
             else
-                res.send(listMessages);
-        }
-        catch (e) {
-            console.log(e);
-            res.status(500).send(e);
-        }
-    })
-
-
-    router.get("/user/:type/:user_id", async (req, res) => {
-        try {
-            const listMessages = await messages.getList({ forum: req.params.type, idAuthor: req.params.user_id });
-            if (!listMessages)
-                res.sendStatus(404);
-            else
-                res.send(listMessages);
+                res.send(listComments);
         }
         catch (e) {
             console.log(e);
@@ -82,12 +66,12 @@ function init(db) {
 
 
     router.put("/create", (req, res) => {
-        const { idAuthor, title, content, forum } = req.body;
-        if (!idAuthor || !content || !forum) {
+        const { idAuthor, idMessage, content} = req.body;
+        if (!idAuthor || !idMessage || !content) {
             res.status(400).send("Missing fields");
         } else {
-            messages.create(idAuthor, title, content, forum)
-                .then((message) => res.status(201).send(message))
+            comments.create(idAuthor, idMessage, content)
+                .then((comment) => res.status(201).send(comment))
                 .catch((err) => res.status(500).send(err));
         }
     });

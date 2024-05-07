@@ -13,6 +13,9 @@ function App(props) {
     // Gère la page du site.
     const [page, setPage] = useState("login");
 
+    // Gère le compte utilisateur du site.
+    const [user, setUser] = useState(null);
+
     /*
      * Choisis la page à mettre en avant.
      *
@@ -22,7 +25,7 @@ function App(props) {
      */
     function choosePage() {
         if (isConnected)
-            return <Home logout={getLogout}/>;
+            return <Home logout={getLogout} user={user}/>;
 
         else if (page === "signup_page")
             return <Signup login={getConnected} login_page={getLogout} signupInProgress_page={getSignupInProgress}/>;
@@ -36,25 +39,29 @@ function App(props) {
 
 
     // Connexion de l'utilisateur, il rentre dans le home.
-    function getConnected() {
+    function getConnected(user) {
+        setUser(user);
         setConnect(true);
         setPage("home_page");
     }
 
     // Deconnexion de l'utilisateur, il retourne sur la page de connexion.
     function getLogout() {
+        setUser(null);
         setConnect(false);
         setPage("login_page");
     }
 
     // L'utilisateur va sur la page d'inscription. Il doit être déconnecté.
     function getSignup() {
+        setUser(null);
         setConnect(false);
         setPage("signup_page");
     }
 
     // Quand l'utilisateur s'incrit ou  se connecte à un compte en cours de validation, il ira sur cette page.
     function getSignupInProgress() {
+        setUser(null);
         setConnect(false);
         setPage("signupInProgress_page");
     }
@@ -68,8 +75,7 @@ function App(props) {
             document.body.classList.add('home-page');
         else
             document.body.classList.remove('home-page');
-    });
-
+    }, [page]);
 
 
     return (

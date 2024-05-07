@@ -20,9 +20,33 @@ function init(db) {
 
 
     const users = new Users(db);
-    router
-        .route("/:user_id")
-        .get(async (req, res) => {
+
+    router.get("/invitation", async (req, res) => {
+        try {
+            const userlist = await users.getUsersPendingValidation();
+            if (!userlist || userlist.length === 0) {
+                return res.status(404).json({
+                    status: 404,
+                    message: "Aucun utilisateur en attente de validation",
+                });
+            }
+    
+            return res.status(200).json({
+                status: 200,
+                message: "Liste d'utilisateurs en attente trouvée.",
+                data: userlist,
+            });
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({
+                status: 500,
+                message: "Erreur interne.",
+            });
+        }
+    });
+
+
+    router.get("/:user_id", async (req, res) => {
         try {
             const user = await users.get(req.params.user_id);
             if (!user)
@@ -34,38 +58,79 @@ function init(db) {
             res.status(500).send(e);
         }
     })
-        .delete((req, res, next) => res.send(`delete user ${req.params.user_id}`));
+
+    router.delete("/delete/:user_id", async (req, res) => {
+        try {
+            const result = await users.delete(req.params.user_id);
+    
+            if (result.message === 'User deleted successfully')
+                res.status(200).json(result);
+            else
+                res.status(404).json({ message: 'User not found' });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Erreur interne.' });
+        }
+    });
 
 
 
-
-    router.post("/create", async (req, res) => {
-        const { mail, password, lastname, firstname } = req.body;
-        console.log("test1");
-        if (!mail || !password || !lastname || !firstname) 
+    router.patch("/validation", async (req, res) => {
+        const { status, userId } = req.body;
+        if (!status || !userId)
             return res.status(400).json({
                 status: 400,
                 message: "Missing fields",
             });
-        console.log("test2");
+
+        try {
+            const result = await users.changeUserStatus(userId, status);
+    
+            if (!result)
+                return res.status(404).json({
+                    status: 404,
+                    message: "Aucun utilisateur avec cet id.",
+                });
+    
+            return res.status(200).json({
+                status: 200,
+                message: "Status mis à jour.",
+            });
+        } 
+        catch (err) {
+            console.error(err);
+            return res.status(500).json({
+                status: 500,
+                message: "Erreur interne",
+            });
+        }
+    })
+
+
+    router.post("/create", async (req, res) => {
+        const { mail, password, lastName, firstName, status } = req.body;
+        if (!mail || !password || !lastName || !firstName || !status) 
+            return res.status(400).json({
+                status: 400,
+                message: "Missing fields",
+            });
+
         if (await users.exists(mail)) 
             return res.status(401).json({
                 status: 401,
                 message: "Cette adresse mail est déjà utilisée."
             });
-        console.log("test3");
-        let userid = await users.create(mail, password, lastname, firstname);
+
+        let userid = await users.create(mail, password, lastName, firstName, status);
         if (!userid) {
             req.session.destroy((err) => { });
             return res.status(403).json({
                 status: 403,
-                message: "Mail et/ou mot de passe invalide.s."
+                message: "Mail et/ou mot de passe invalide.s"
             });
         }
 
         req.session.regenerate((err) => {
-            console.log("test");
-
             if (err)
                 return res.status(500).json({
                     status: 500,

@@ -87,3 +87,11 @@
     text-align: center;
     height: 5px;
 }
+
+.Signup > .valid {
+    border-color: green;
+}
+
+.Signup > .invalid {
+    border-color: red;
+}

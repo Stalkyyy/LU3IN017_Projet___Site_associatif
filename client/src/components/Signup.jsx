@@ -1,86 +1,111 @@
 import { useState, useEffect } from "react";
 import '../css/Signup.css'
+import axios from 'axios';
+import URL from '../Url.jsx';
 
 function Signup(props) {
-    // Gère les différentes valeurs inscrites par l'utilisateur à l'inscription.
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [pass1, setPass1] = useState("");
-    const [pass2, setPass2] = useState("");
+    // Gère les différentes informations inscrites par l'utilisateur pour la création de compte.
+    const [firstName, setFirstName] = useState({validation : false, content: ""});
+    const [lastName, setLastName] = useState({validation : false, content: ""});
+    const [mail, setMail] = useState({validation : false, content: ""});
+    const [pass1, setPass1] = useState({validation : false, content: ""});
+    const [pass2, setPass2] = useState({validation : false, content: ""});
+    const [errorPassword, setErrorPassword] = useState("");
 
-    function getFirstName(event) { setFirstName(event.target.value); }
-    function getLastName(event) { setLastName(event.target.value); }
-    function getEmail(event) { setEmail(event.target.value); }
-    function getPass1(event) { setPass1(event.target.value); }
-    function getPass2(event) { setPass2(event.target.value); }
-
-
-
-    /*
-     * Informations sur les conditions du choix de mot de passe.
-     * - status : Si true alors les conditions ne sont pas respectées, sinon oui.
-     * - message : Correspond au message d'erreur, s'il y en a un.
-     */
-    const [errorPassword, setErrorPassword] = useState({status: true, message: ""});
-
-    function checkPassword(password) {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return regex.test(password);
+    function getFirstName(event) { 
+        setFirstName({
+            validation: event.target.value,
+            content : event.target.value
+        });
     }
 
-    function messageErrorPassword() {
-        if (pass1 === "")
-            return setErrorPassword({status: true, message: ""});
+    function getLastName(event) { 
+        setLastName({
+            validation: event.target.value,
+            content : event.target.value
+        });
+    }
 
-        const samePass = pass1 === pass2;
-        const isGoodPassword = checkPassword(pass1);
+    function getMail(event) {
+        setMail({
+            validation: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(event.target.value),
+            content: event.target.value
+        });
+    }
 
-        if (!isGoodPassword)
-            return setErrorPassword({
-                status: true,
-                message: "Ton mot de passe doit contenir au moins 8 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial (@ $ ! % * ? &)." 
+    function getPass1(event) {
+        setPass1({
+            validation: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(event.target.value),
+            content: event.target.value
+        });
+    }
+
+    function getPass2(event) {
+        setPass2({
+            validation: pass1.validation && event.target.value === pass1.content,
+            content: event.target.value
+        });
+    }
+
+
+    // Fonction gérant le message d'erreur, pour la validité des mots de passe.
+    function errorMessage() {
+        if (!pass1.content && !pass2.content)
+            return setErrorPassword("");
+
+        if (!pass1.validation)
+            return setErrorPassword("Ton mot de passe doit contenir au moins 8 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial (@ $ ! % * ? &).");
+
+        if (!pass2.validation)
+            return setErrorPassword("Les deux mots de passe doivent être identiques !");
+
+        setErrorPassword("");
+    }
+
+    useEffect(errorMessage, [pass1, pass2]);
+
+
+
+    // Gère la demande serveur au niveau de l'inscription d'un utilisateur.
+    function handleSubmit() {
+        if (!(firstName.validation && lastName.validation && mail.validation && pass2.validation))
+            return;
+
+        axios.post(`${URL()}/user/create`, { mail : mail.content, password : pass2.content, firstName : firstName.content, lastName : lastName.content, status : "invitation" })
+            .then((response) => {
+                if (response.status === 200)
+                    props.signupInProgress_page();
+                else
+                    setErrorPassword(response.data.message);
+            })
+            .catch(err => {
+                console.error(err);
+                setErrorPassword(err.response.data.message);
             });
-
-        if (!samePass)
-            return setErrorPassword({
-                status: true,
-                message: "Les deux mots de passe doivent être identiques !"
-            });
-
-        setErrorPassword({status: false, message: ""});
     }
 
-    useEffect(messageErrorPassword, [pass1, pass2]);
-
-
-    
-    function submitHandler(event) {
-        if (errorPassword.status === false)
-            props.signupInProgress_page();
-    }
 
     return (
         <div className="Signup">
             <h1>Inscription</h1>
 
             <label htmlFor="firstName">Prénom</label>
-            <input type="text" id="FirstName" placeholder="Prénom" onChange={getFirstName} />
+            <input className={firstName.validation ? "valid" : "invalid"} type="text" id="firstName" placeholder="Prénom" onChange={getFirstName} />
             <label htmlFor="lastName">Nom de famille</label>
-            <input type="text" id="LastName" placeholder="Nom de famille" onChange={getLastName} />
+            <input className={lastName.validation ? "valid" : "invalid"} type="text" id="lastName" placeholder="Nom de famille" onChange={getLastName} />
 
-            <label type="text" htmlFor="Signup_email">Email</label>
-            <input type="text" id="Signup_email" placeholder="Email" onChange={getEmail} />
+            <label type="text" htmlFor="mail">Email</label>
+            <input className={mail.validation ? "valid" : "invalid"} type="text" id="mail" placeholder="Email" onChange={getMail} />
 
-            <label type="text" htmlFor="Signup_password1">Mot de passe</label>
-            <input type="password" id="Signup_password1" placeholder="Mot de passe" onChange={getPass1} />
+            <label type="text" htmlFor="password">Mot de passe</label>
+            <input className={pass1.validation ? "valid" : "invalid"} type="password" id="password" placeholder="Mot de passe" onChange={getPass1} />
 
-            <label type="text" htmlFor="Signup_password2">Confirmation du mot de passe</label>
-            <input type="password" id="Signup_password2" placeholder="Mot de passe" onChange={getPass2} />
+            <label type="text" htmlFor="password2">Confirmation du mot de passe</label>
+            <input className={pass2.validation ? "valid" : "invalid"} type="password" id="password2" placeholder="Mot de passe" onChange={getPass2} />
 
-            <button onClick={submitHandler}>S'incrire</button>
+            <button onClick={handleSubmit}>S'incrire</button>
 
-            <p style={{color:"#C84862"}}>{errorPassword.message}</p>
+            <p style={{color:"#C84862"}}>{errorPassword}</p>
 
             <hr></hr>
                 
