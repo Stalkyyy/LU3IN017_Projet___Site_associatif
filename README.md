@@ -6,7 +6,7 @@
 
 ## Explication du lancement
 
-Pour commencer, dans le dossier client et server, exécutez dans le terminal `npm install`.
+Pour commencer, dans le dossier client et server, exécutez dans le terminal `npm install`
 
 Ensuite, tapez dans les répertoires correspondant, pour lancer :
 - le côté serveur : `npm start`
