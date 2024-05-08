@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Comment from './Comment.jsx';
 import URL from '../Url.jsx';
+import axios from 'axios';
 
 function CommentList(props) {
+    // Contient la liste de commentaires affichées.
     const [Comments, setComments] = useState([]);
 
+
+
+    // Gère la demande serveur pour récupérer la liste de commentaire, grâce à l'ID d'un message.
     function refreshComments() {
         axios.get(`${URL()}/comment/msg/${props.msgId}`)
             .then(response => {
@@ -17,9 +21,13 @@ function CommentList(props) {
             });
     };
 
+    // Permet de faire la demande lors de la création du composant.
     useEffect(() => {
         refreshComments();
     }, []);
+
+
+
 
     return (
         <div id="CommentList">

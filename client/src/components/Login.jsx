@@ -1,10 +1,10 @@
 import { useState } from "react";
-import axios from 'axios';
 import URL from '../Url.jsx';
+import axios from 'axios';
 import '../css/Login.css'
 
 function Login(props) {
-    // Gère le mail et le mot de passe inscrits par l'utilisateur.
+    // Garde en mémoire le mail et le mot de passe inscrits par l'utilisateur.
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ function Login(props) {
 
     
 
-    // Gère la demande serveur au niveau de la connexion à un compte.
+    // Gère la demande serveur pour se connecter à un compte.
     function handleSubmit() {
         axios.post(`${URL()}/auth/login`, { mail, password })
             .then((response) => {

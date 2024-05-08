@@ -8,6 +8,8 @@ class Users {
     }
 
     async create(mail, password, lastname, firstname) {
+        // Permet de créer un compte utilisateur.
+
         try {
             const user = {
                 mail,
@@ -30,7 +32,11 @@ class Users {
         }
     }
 
+
+
     async delete(userid) {
+        // Permet de supprimer un compte utilisateur grâce à son ID.
+
         try {
             const result = await this.db.collection('users').deleteOne({ _id: new ObjectId(userid) });
     
@@ -44,7 +50,11 @@ class Users {
         }
     }
 
+
+
     async get(userid) {
+        // Permet de récupérer les informatiosn d'un compte utilisateur (sauf mot de passe) grâce à son ID.
+
         try {
             const user = await this.db.collection('users').findOne({ _id: new ObjectId(userid) }, { projection: { password: 0 } });
             return user;
@@ -54,7 +64,11 @@ class Users {
         }
     }
 
+
+
     async exists(mail) {
+        // Permet de vérifier l'existence d'un compte utilisateur grâce à son mail (unique donc).
+
         try {
             const user = await this.db.collection('users').findOne({ mail }, { projection: { password: 0 } });
             return user
@@ -64,7 +78,11 @@ class Users {
         }
     }
 
+
+
     async checkpassword(mail, password) {
+        // Permet de comparer le mot de passe inscrit par l'utilisateur, et le mot de passe hashé.
+
         try {
             const user = await this.db.collection('users').findOne({ mail });
             if (!user) {
@@ -89,7 +107,10 @@ class Users {
     }
 
 
+
     async getUsersPendingValidation() {
+        // Permet de récupérer la liste des utilisateurs en attente de validation.
+
         try {
             const users = await this.db.collection('users').find({ status: 'invitation' }, { projection: { password: 0 } });
             return users.toArray();
@@ -99,7 +120,11 @@ class Users {
         }
     }
 
+
+
     async changeUserStatus(userId, status) {
+        // Permet de changer le statut d'un utilisateur (membre ou admin), grâce à son ID.
+
         try {
             const validStatuses = ['member', 'admin'];
             if (!validStatuses.includes(status))

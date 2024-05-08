@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import CommentForm from './CommentForm.jsx';
 import CommentList from './CommentList.jsx';
-import '../css/Message.css'
-import axios from 'axios';
 import URL from '../Url.jsx';
+import axios from 'axios';
+import '../css/Message.css'
 
 function Message(props) {
+    // Garde en mémoire l'auteur du message.
+    // De plus, on aura le mode de visibilité des commentaires de ce message.
+    // De plus, refreshKey est un état permettant de rafraichir le composant CommentList.
     const [author, setAuthor] = useState({});
     const [showComments, setShowComments] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);

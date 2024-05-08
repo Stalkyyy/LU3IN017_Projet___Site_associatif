@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import '../css/Signup.css'
-import axios from 'axios';
 import URL from '../Url.jsx';
+import axios from 'axios';
+import '../css/Signup.css'
+
 
 function Signup(props) {
     // Gère les différentes informations inscrites par l'utilisateur pour la création de compte.
@@ -48,6 +49,7 @@ function Signup(props) {
     }
 
 
+
     // Fonction gérant le message d'erreur, pour la validité des mots de passe.
     function errorMessage() {
         if (!pass1.content && !pass2.content)
@@ -71,7 +73,7 @@ function Signup(props) {
         if (!(firstName.validation && lastName.validation && mail.validation && pass2.validation))
             return;
 
-        axios.post(`${URL()}/user/create`, { mail : mail.content, password : pass2.content, firstName : firstName.content, lastName : lastName.content, status : "invitation" })
+        axios.post(`${URL()}/user/create`, { mail : mail.content, password : pass2.content, firstName : firstName.content, lastName : lastName.content })
             .then((response) => {
                 if (response.status === 200)
                     props.signupInProgress_page();
@@ -84,6 +86,7 @@ function Signup(props) {
             });
     }
 
+    
 
     return (
         <div className="Signup">

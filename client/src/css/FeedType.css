@@ -45,3 +45,8 @@
     max-height: calc(100% - 323px);
     overflow-y: auto;
 }
+
+#conteneurMessageSearch {
+    max-height: calc(100% - 72px);
+    overflow-y: auto;
+}

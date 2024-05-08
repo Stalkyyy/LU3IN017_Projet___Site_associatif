@@ -43,3 +43,33 @@
     margin-bottom: 20px;
 }
 
+
+#profilChangeStatus {
+    color: #094b4b;
+    letter-spacing: 0.5px;
+    outline: none;
+
+    text-align: center;
+    width: 200px;
+    height: 75px;
+    border: 2px solid;
+    background-color: #D3E9E5;
+    padding: 15px 0;
+    margin: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+
+    box-shadow: 0 0 0px transparent;
+    transition: all 0.2s ease;
+}
+
+
+#profilChangeStatus:hover {
+    color : #fbfcf8;
+    background-color: #008080;
+    border-color: #008080;
+
+    box-shadow: 0 0 4px rgba(8,7,16,0.6);
+}

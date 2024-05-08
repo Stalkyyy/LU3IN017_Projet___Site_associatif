@@ -1,0 +1,48 @@
+#SearchForm {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+}
+
+#SearchForm > label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#SearchForm > input, textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+#SearchForm > button {
+    padding: 10px 20px;
+    background-color: #067d7d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+
+    transition: all 0.2s ease;
+}
+
+#SearchForm > button:hover {
+    background-color: #094b4b;
+}
+
+#SearchForm > p {
+    height: 20px;
+    margin: 0;
+    margin-bottom: 8px;
+}

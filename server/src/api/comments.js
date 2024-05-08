@@ -20,32 +20,18 @@ function init(db) {
 
 
     const comments = new Comments(db);
-    router
-        .route("/id/:comment_id")
-        .get(async (req, res) => {
-            try {
-                const comment = await comments.getId(req.params.comment_id);
-                if (!comment)
-                    res.sendStatus(404);
-                else
-                    res.send(comment);
-            }
-            catch (e) {
-                res.status(500).send(e);
-            }
-        })
-        .delete(async (req, res, next) => {
-            try {
-                const ack = await comments.delete(req.params.comment_id);
-                if (ack)
-                    res.send("ok");
-                else
-                    res.sendStatus(404);
-            }
-            catch (e) {
-                res.status(500).send(e);
-            }
-        });
+    router.delete("/id/:comment_id", async (req, res, next) => {
+        try {
+            const ack = await comments.delete(req.params.comment_id);
+            if (ack)
+                res.send("ok");
+            else
+                res.sendStatus(404);
+        }
+        catch (e) {
+            res.status(500).send(e);
+        }
+    });
 
 
 

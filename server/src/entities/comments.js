@@ -6,6 +6,8 @@ class Comments {
     }
 
     async create(idAuthor, idMessage, content) {
+        // Permet de créer un commentaire, grâce à l'ID de l'auteur, du message, et de son contenu.
+
         try {
             const comment = {
                 idAuthor,
@@ -28,7 +30,11 @@ class Comments {
         }
     }
 
+
+
     async getList(idMessage) {
+        // Permet de récupérer la liste de commentaires d'un message, grâce à son ID.
+
         try {
             const cursorListMessages = await this.db.collection('comments')
                 .find({ idMessage })
@@ -40,7 +46,11 @@ class Comments {
         }
     }
 
+
+
     async delete(comment_id) {
+        // Permet de supprimer un commentaire, grâce à son ID.
+
         try {
             const result = await this.db.collection('comments').deleteOne({ _id: new ObjectId(comment_id) });
             return result.acknowledged;

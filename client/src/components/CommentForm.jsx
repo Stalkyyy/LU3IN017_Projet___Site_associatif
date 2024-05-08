@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import '../css/CommentForm.css'
-import axios from 'axios';
+import { useState } from "react";
 import URL from '../Url.jsx';
+import axios from 'axios';
+import '../css/CommentForm.css'
 
 function CommentForm(props) {
+    // Garde en mémoire le contenu du formulaire.
     const [ content, setContent ] = useState("");
     const [ error, setError ] = useState("");
 
@@ -11,6 +12,9 @@ function CommentForm(props) {
         setContent(event.target.value);
     }
 
+
+
+    // Gère la demande serveur pour poster un commentaire.
     function handleSubmit(event) {
         event.preventDefault();
 

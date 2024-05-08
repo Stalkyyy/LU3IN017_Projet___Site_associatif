@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import URL from '../Url.jsx';
+import axios from 'axios';
 
 function Invitation(props) {
-
+    // Gère la demande serveur pour accepter en tant que membre, admin, ou rejeter un utilisateur en cours de validation.
     function clickHandler(e) {
         if (e.target.value === "refused")
             axios.delete(`${URL()}/user/delete/${props.userInvite._id}`)
@@ -30,6 +29,8 @@ function Invitation(props) {
                 })
     }
 
+
+    
     return(
         <div className="Invitation">
             <div className='informations-Invitation'>

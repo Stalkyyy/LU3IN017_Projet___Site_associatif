@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "e44ae493-fe1c-49a7-8390-a8f27cbe38fd",
+		"name": "comments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32547497"
+	},
+	"item": [
+		{
+			"name": "create",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idAuthor\" : \"6631289affd8680a2d088e10\",\r\n    \"idMessage\" : \"66315654a69f3ef2b84136c7\",\r\n    \"content\" : \"Mon contenu hihi !!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/comment/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"comment",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCommentsOfMessage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/comment/msg/66315654a69f3ef2b84136c7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"comment",
+						"msg",
+						"66315654a69f3ef2b84136c7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/comment/id/663b23e34526083ef658df74",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"comment",
+						"id",
+						"663b23e34526083ef658df74"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

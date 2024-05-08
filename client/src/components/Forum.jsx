@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MessageList from "./MessageList.jsx";
 import MessageForm from "./MessageForm.jsx";
 import '../css/FeedType.css';
 
 function Forum(props) {
+    // Garde en mémoire si le forum affiché est celui privé ou public.
+    // De plus, refreshKey est un état permettant de rafraichir le composant MessageList.
     const [privateForum, setForum] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
 
@@ -11,6 +13,8 @@ function Forum(props) {
         setRefreshKey(oldKey => oldKey + 1);
     };
 
+
+    
     return (
         <div id="Forum" className="CentralBanner">
             <div id="feedType">

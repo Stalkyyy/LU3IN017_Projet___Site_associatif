@@ -108,8 +108,8 @@ function init(db) {
 
 
     router.post("/create", async (req, res) => {
-        const { mail, password, lastName, firstName, status } = req.body;
-        if (!mail || !password || !lastName || !firstName || !status) 
+        const { mail, password, lastName, firstName } = req.body;
+        if (!mail || !password || !lastName || !firstName) 
             return res.status(400).json({
                 status: 400,
                 message: "Missing fields",
@@ -121,7 +121,7 @@ function init(db) {
                 message: "Cette adresse mail est déjà utilisée."
             });
 
-        let userid = await users.create(mail, password, lastName, firstName, status);
+        let userid = await users.create(mail, password, lastName, firstName);
         if (!userid) {
             req.session.destroy((err) => { });
             return res.status(403).json({

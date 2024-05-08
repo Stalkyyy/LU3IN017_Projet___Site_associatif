@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import '../css/MessageForm.css'
-import axios from 'axios';
 import URL from '../Url.jsx';
+import axios from 'axios';
 
 function MessageForm(props) {
+    // Garde en mémoire le titre, contenu du formulaire.
+    // De plus, nous avons une erreur qu'on affichera à l'utilisateur.
     const [ title, setTitle ] = useState("");
     const [ content, setContent ] = useState("");
     const [ error, setError ] = useState("");
@@ -16,6 +18,9 @@ function MessageForm(props) {
         setContent(event.target.value);
     }
 
+
+
+    // Gère la demande serveur pour créer un nouveau message.
     function handleSubmit(event) {
         event.preventDefault();
 

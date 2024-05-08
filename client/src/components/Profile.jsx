@@ -1,15 +1,37 @@
 import { useEffect, useState } from "react";
+import MessageList from "./MessageList.jsx";
+import URL from '../Url.jsx';
+import axios from 'axios';
 import '../css/Profile.css'
 import '../css/FeedType.css'
-import MessageList from "./MessageList.jsx";
-import axios from 'axios';
-import URL from '../Url.jsx';
 
 function Profile(props) {
-    const [privateForum, setForum] = useState(false);
+    // Garde en mémoire les informations de l'utilisateur du profil visité.
+    // De plus, on a le type de forum, soit privé, soit public.
+    // Enfin, refreshKey est un état permettant de rafraichir le composant actuel.
     const [userInfo, setUserInfo] = useState(null);
+    const [privateForum, setForum] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
 
 
+
+    // Gère la demande serveur pour changer le statut de l'utilisateur en profil en membre ou admin.
+    function handleClick(e) {
+        axios.patch(`${URL()}/user/validation`, { status: userInfo.status === "member" ? "admin" : "member", userId: userInfo._id})
+                .then((response) => {
+                    if (response.status === 200)
+                        setRefreshKey(refreshKey + 1);
+                    else
+                        console.log(response);
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+    }
+
+
+
+    // Permet de faire une demande serveur pour récupérer les informations de l'utilisateur du profil, lors de la création du composant.
     useEffect(() => {
         axios.get(`${URL()}/user/${props.userFocused}`)
             .then((response) => {
@@ -18,9 +40,10 @@ function Profile(props) {
             .catch(error => {
                 console.error('Error fetching user info:', error);
             })
-    }, [props.userFocused]);
+    }, [props.userFocused, refreshKey]);
 
 
+    
     return (
         <div id="Profile" className="CentralBanner">
             <div id="Presentation_Profile">
@@ -33,7 +56,9 @@ function Profile(props) {
                             new Date(userInfo.date).toLocaleDateString('fr-FT')
                         }
                     </p>
+                    <p>Statut : {userInfo && userInfo.status}</p>
                 </div>
+                {userInfo && userInfo._id !== props.user._id && <button id="profilChangeStatus" onClick={handleClick}>Transformer en {userInfo.status === "admin" ? "membre" : "admin"}</button>}
             </div>
             <div id="feedType">
                 <button id="goPublicForum" className={!privateForum ? "forumSelected" : ""} onClick={() => setForum(false)}>Posts publics</button>

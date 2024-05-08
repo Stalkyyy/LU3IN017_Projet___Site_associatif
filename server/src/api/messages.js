@@ -92,6 +92,26 @@ function init(db) {
         }
     });
 
+
+    router.post('/search', async (req, res) => {
+        try {
+            const { keywords, title, startDate, endDate, authorFirstname, authorLastname, isAdmin } = req.body;
+            const start = startDate ? new Date(startDate) : null;
+            const end = endDate ? new Date(endDate) : null;
+            const forumType = isAdmin ? { $in: ['public', 'private'] } : 'public'; 
+                // Oui, si on est admin, alors on veut les messages publiques ET privés.
+
+            const listMessages = await messages.search(keywords, title, start, end, authorFirstname, authorLastname, forumType);
+            if (!listMessages)
+                res.sendStatus(404);
+            else
+                res.send(listMessages);
+        } catch (e) {
+            console.log(e);
+            res.status(500).send(e);
+        }
+    })
+
     return router;
 }
 

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import '../css/Comment.css'
-import axios from 'axios';
 import URL from '../Url.jsx';
+import axios from 'axios';
+import '../css/Comment.css'
 
 function Comment(props) {
+    // Garde en mémoire les informations de l'auteur du commentaire.
     const [author, setAuthor] = useState({});
 
+
+    
+    // Gère la demande serveur pour supprimer le commentaire.
     function clickDeleteHandler(e) {
         axios.delete(`${URL()}/comment/id/${props.com._id}`)
             .then((response) => {
@@ -20,6 +24,7 @@ function Comment(props) {
     }
 
 
+    // Permet de faire une demande au serveur pour récupérer l'auteur du commentaire, quand le composant est crée.
     useEffect(() => {
         axios.get(`${URL()}/user/${props.com.idAuthor}`)
             .then(response => {
@@ -29,6 +34,8 @@ function Comment(props) {
                 console.error('There was an error!', error);
             });
     }, [props.com.idAuthor]);
+
+
 
     return (
         <div className="Comment">

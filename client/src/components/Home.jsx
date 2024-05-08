@@ -1,12 +1,15 @@
 import { useState } from "react";
-import '../css/Home.css';
-import Forum from "./Forum.jsx";
-import Profile from "./Profile.jsx";
-import Recherche from "./Recherche.jsx";
 import UserBanner from "./UserBanner.jsx";
 import Validation from "./Validation.jsx";
+import Profile from "./Profile.jsx";
+import Search from "./Search.jsx";
+import Forum from "./Forum.jsx";
+import '../css/Home.css';
 
 function Home(props) {
+    // Garde en mémoire quel page le site affichera (forum, profil, recherche, validation...)
+    // De plus, il garde en mémoire quel profil (userFocused) l'utilisateur souhaite voir.
+    // Enfin, refreshKey est un état permettant de rafraichir le composant Profile.
     const [homeCBpage, setHomeCBpage] = useState("forum");
     const [userFocused, setUserFocused] = useState(props.user._id);
     const [refreshKey, setRefreshKey] = useState(0);
@@ -24,8 +27,8 @@ function Home(props) {
     function chooseCentralBanner() {
         if (homeCBpage === "profile")
             return <Profile key={refreshKey} user={props.user} userFocused={userFocused} visitProfile={visitProfile}/>
-        else if (homeCBpage === "recherche")
-            return <Recherche key={refreshKey} user={props.user} visitProfile={visitProfile}/>
+        else if (homeCBpage === "search")
+            return <Search key={refreshKey} user={props.user} visitProfile={visitProfile}/>
         else if (homeCBpage === "validation" && props.user.status === "admin")
             return <Validation key={refreshKey} user={props.user}/>
         else
