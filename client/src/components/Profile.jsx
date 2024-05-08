@@ -58,7 +58,7 @@ function Profile(props) {
                     </p>
                     <p>Statut : {userInfo && userInfo.status}</p>
                 </div>
-                {userInfo && userInfo._id !== props.user._id && <button id="profilChangeStatus" onClick={handleClick}>Transformer en {userInfo.status === "admin" ? "membre" : "admin"}</button>}
+                {(userInfo && userInfo._id !== props.user._id && props.user.status === "admin") ? <button id="profilChangeStatus" onClick={handleClick}>Transformer en {userInfo.status === "admin" ? "membre" : "admin"}</button> : <></>}
             </div>
             <div id="feedType">
                 <button id="goPublicForum" className={!privateForum ? "forumSelected" : ""} onClick={() => setForum(false)}>Posts publics</button>
